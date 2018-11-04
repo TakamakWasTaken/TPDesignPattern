@@ -4,17 +4,11 @@ namespace TPDesignPattern
 {
     public abstract class Nuisible
     {
-        private Random r = new Random();
+        protected Random r = new Random();
         protected Ecosysteme _ecosysteme;
-        protected int vitesse;
-        protected Coordonnees _coordonnees;
-        protected string etat;
-        
-
-        protected Nuisible()
-        {
-            
-        }
+        protected int vitesse { set; get; }
+        protected Coordonnees _coordonnees { set; get; }
+        protected string etat { set; get; }
 
         public abstract void Contact();
 
@@ -32,7 +26,7 @@ namespace TPDesignPattern
         /// <summary>
         /// Calcule la position du Nuisible après un déplacement d'une case. Si il est hors limites, inverse le déplacement.
         /// </summary>
-        public void MoveOne()
+        protected void MoveOne()
         {
             string direction = ChoixDirection();
 
@@ -77,7 +71,7 @@ namespace TPDesignPattern
         /// <param name="newX">La valeur de la coordonnée X</param>
         /// <param name="newY">La valeur de la coordonnée X</param>
         /// <returns></returns>
-        public bool isPositionEmpty(int newX, int newY)
+        protected bool isPositionEmpty(int newX, int newY)
         {
             bool isEmpty = true;
             for (var i = 0; i < _ecosysteme.getListNuisibles().Count; i++)
@@ -122,5 +116,7 @@ namespace TPDesignPattern
             
             return direction;
         }
+        
+        
     }
 }

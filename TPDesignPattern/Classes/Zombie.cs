@@ -6,5 +6,11 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public Zombie()
+        {
+            vitesse = 1;
+            etat = "zombified";
+        }
     }
 }

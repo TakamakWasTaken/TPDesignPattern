@@ -4,6 +4,22 @@ namespace TPDesignPattern
 {
     public class Simulation
     {
-        public List<Ecosysteme> listEcosystemes = new List<Ecosysteme>();
+        private List<Ecosysteme> listEcosystemes = new List<Ecosysteme>();
+
+        public List<Ecosysteme> getEcosystemeList()
+        {
+            return listEcosystemes;
+        }
+        
+        public List<Ecosysteme> addEcosysteme(Ecosysteme ecosysteme)
+        {
+            listEcosystemes.Add(ecosysteme);
+            return listEcosystemes;
+        }
+
+        public void startAll()
+        {
+            
+        }
     }
 }

@@ -6,5 +6,11 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public Pigeon()
+        {
+            vitesse = 3;
+            etat = "alive";
+        }
     }
 }

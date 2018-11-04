@@ -1,0 +1,6 @@
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\bin\Debug\TPDesignPattern.exe
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\bin\Debug\TPDesignPattern.pdb
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\obj\Debug\TPDesignPattern.csprojAssemblyReference.cache
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\obj\Debug\TPDesignPattern.csproj.CoreCompileInputs.cache
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\obj\Debug\TPDesignPattern.exe
+D:\Ingésup\B3\Objet Gevrin\TP Note\TPDesignPattern\TPDesignPattern\obj\Debug\TPDesignPattern.pdb
