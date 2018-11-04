@@ -2,15 +2,15 @@
 {
     public class Zombie : Nuisible
     {
-        public override void Contact()
+        public override void Contact(Nuisible nuisibleEncountered)
         {
-            throw new System.NotImplementedException();
+            nuisibleEncountered.etat = zombified;
         }
 
         public Zombie()
         {
             vitesse = 1;
-            etat = "zombified";
+            etat = zombified;
         }
     }
 }

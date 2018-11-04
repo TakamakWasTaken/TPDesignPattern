@@ -21,6 +21,7 @@ namespace TPDesignPattern
         {
             _listNuisibles.Add(nuisible);
             nuisible._ecosysteme = this;
+            nuisible.spawn();
         }
 
         public List<Nuisible> getListNuisibles()
@@ -40,10 +41,10 @@ namespace TPDesignPattern
 
         public Ecosysteme()
         {
-            nordOuest = new Coordonnees(0, 0);
-            nordEst = new Coordonnees(0, 10);
+            nordOuest = new Coordonnees(1, 1);
+            nordEst = new Coordonnees(1, 10);
             sudEst = new Coordonnees(10, 10);
-            sudOuest = new Coordonnees(10, 0);
+            sudOuest = new Coordonnees(10, 1);
             min = 0;
             max = 0;
         }
