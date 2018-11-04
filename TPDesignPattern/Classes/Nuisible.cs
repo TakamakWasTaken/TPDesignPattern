@@ -5,13 +5,21 @@ namespace TPDesignPattern
     public abstract class Nuisible
     {
         protected Random r = new Random();
-        protected Ecosysteme _ecosysteme;
+        protected Ecosysteme _ecosysteme { set; get; }
         protected int vitesse { set; get; }
-        protected Coordonnees _coordonnees { set; get; }
+        protected Coordonnees _currentCoordonnees { set; get; }
+        protected Coordonnees _lastCoordonnees { set; get;  }
         protected string etat { set; get; }
 
         public abstract void Contact();
 
+        public void spawn()
+        {
+            _currentCoordonnees.X = r.Next(_ecosysteme.min, _ecosysteme.max+1);
+            _currentCoordonnees.Y = r.Next(_ecosysteme.min, _ecosysteme.max+1);
+            
+        }
+        
         /// <summary>
         /// Calcule la position après déplacement total. Appelle la fonction de vérification de présence d'un autre nuisible.
         /// </summary>
@@ -19,8 +27,11 @@ namespace TPDesignPattern
         {
 
             MoveOne();
-            isPositionEmpty(_coordonnees.X, _coordonnees.Y);
-
+            bool isPositionEmpty = this.isPositionEmpty(_currentCoordonnees.X, _currentCoordonnees.Y);
+            if (!isPositionEmpty)
+            {
+                resetPosition();
+            }
         }
 
         /// <summary>
@@ -35,34 +46,36 @@ namespace TPDesignPattern
             switch (direction)
             {
                     case "nord":
-                        newY = _coordonnees.Y - 1;
+                        newY = _currentCoordonnees.Y - 1;
                         break;
                         
                     case "sud":
-                        newY = _coordonnees.Y + 1;
+                        newY = _currentCoordonnees.Y + 1;
                         break;
                         
                     case "est":
-                        newX = _coordonnees.X + 1;
+                        newX = _currentCoordonnees.X + 1;
                         break;
                             
                     case "ouest":
-                        newX = _coordonnees.X - 1;
+                        newX = _currentCoordonnees.X - 1;
                         break;
             }
             if (newY > _ecosysteme.sudOuest.Y || newY < _ecosysteme.nordEst.Y)
             {
-                newY = _coordonnees.Y + (_coordonnees.Y - newY);
+                newY = _currentCoordonnees.Y + (_currentCoordonnees.Y - newY);
             }
             
             if (newX > _ecosysteme.sudOuest.X || newX < _ecosysteme.nordEst.X)
             {
-                newY = _coordonnees.X + (_coordonnees.X - newX);
+                newY = _currentCoordonnees.X + (_currentCoordonnees.X - newX);
             }
 
-            _coordonnees.X = newX;
+            _lastCoordonnees = _currentCoordonnees;
+            
+            _currentCoordonnees.X = newX;
 
-            _coordonnees.Y = newY;
+            _currentCoordonnees.Y = newY;
         }
 
         /// <summary>
@@ -76,7 +89,7 @@ namespace TPDesignPattern
             bool isEmpty = true;
             for (var i = 0; i < _ecosysteme.getListNuisibles().Count; i++)
             {
-                var currentNuisibleCoordinates = _ecosysteme.getListNuisibles()[i]._coordonnees;
+                var currentNuisibleCoordinates = _ecosysteme.getListNuisibles()[i]._currentCoordonnees;
                 if (currentNuisibleCoordinates.X == newX && currentNuisibleCoordinates.Y == newY)
                 {
                     isEmpty = false;
@@ -116,7 +129,10 @@ namespace TPDesignPattern
             
             return direction;
         }
-        
-        
+
+        protected void resetPosition()
+        {
+            _currentCoordonnees = _lastCoordonnees;
+        }
     }
 }

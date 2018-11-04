@@ -17,6 +17,8 @@ namespace TPDesignPattern
             ecosysteme.addNuisible(zombie);
             
             simulation.addEcosysteme(ecosysteme);
+            
+            simulation.start();
         }
     }
 }

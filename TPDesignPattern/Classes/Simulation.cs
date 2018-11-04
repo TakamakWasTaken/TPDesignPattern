@@ -17,7 +17,11 @@ namespace TPDesignPattern
             return listEcosystemes;
         }
 
-        public void startAll()
+        public void start()
+        {
+            
+        }
+        public void start(string type)
         {
             
         }
