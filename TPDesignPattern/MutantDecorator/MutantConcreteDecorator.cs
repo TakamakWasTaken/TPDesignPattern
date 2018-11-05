@@ -17,6 +17,9 @@ namespace TPDesignPattern
            
         }
 
+        /// <summary>
+        /// Méthode modifiant le comportement du Nuisible lors d'une rencontre.
+        /// </summary>
         void BloodLust(Nuisible nuisibleEncountered)
         {
             if (Etat == Dead && nuisibleEncountered.GetType() == typeof(Rat))

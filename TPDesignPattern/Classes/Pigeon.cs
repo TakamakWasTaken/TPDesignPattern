@@ -13,6 +13,10 @@ namespace TPDesignPattern
             Etat = Alive;
         }
 
+        /// <summary>
+        /// Méthode Contact surchargée pour correspondre au cas du Pigeon.
+        /// </summary>
+        /// <param name="nuisibleEncountered">Le nuisible rencontré</param>
         public override void Contact(Nuisible nuisibleEncountered)
         {
             if (Etat == Zombified)

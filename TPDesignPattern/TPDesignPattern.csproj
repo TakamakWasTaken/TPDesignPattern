@@ -43,13 +43,15 @@
   <ItemGroup>
     <Compile Include="Classes\Coordonnees.cs" />
     <Compile Include="Classes\Ecosysteme.cs" />
-    <Compile Include="Classes\MutantConcreteDecorator.cs" />
-    <Compile Include="Classes\MutantDecorator.cs" />
     <Compile Include="Classes\Nuisible.cs" />
     <Compile Include="Classes\Pigeon.cs" />
     <Compile Include="Classes\Rat.cs" />
     <Compile Include="Classes\Simulation.cs" />
     <Compile Include="Classes\Zombie.cs" />
+    <Compile Include="MutantDecorator\MutantConcreteDecorator.cs" />
+    <Compile Include="MutantDecorator\MutantDecorator.cs" />
+    <Compile Include="NonViolentStrategy\NonViolentConcreteStrategy.cs" />
+    <Compile Include="NonViolentStrategy\NonViolentStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

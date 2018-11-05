@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using TPDesignPattern.NonViolentStrategy;
 
 namespace TPDesignPattern
 {
@@ -17,7 +18,9 @@ namespace TPDesignPattern
             _simulation = new Simulation();
             var choice = 0;
             var userChoiceMutants = 0;
+            var userChoiceNonViolent = 0;
             var enableMutant = false;
+            var enableStrategy = false;
             while (choice > 3 || choice < 1)
             {
                 Console.WriteLine("Bienvenu, veuillez entrer le chiffre correspondant à l'écosystème à simuler et appuyer sur Entrée:\n");
@@ -30,7 +33,6 @@ namespace TPDesignPattern
                     choice = Convert.ToInt16(x);
                 }
             }
-            Ecosysteme ecosysteme = new Ecosysteme(choice);
             
             while (userChoiceMutants < 1 || userChoiceMutants > 2)
             {
@@ -43,8 +45,20 @@ namespace TPDesignPattern
                     enableMutant = true;
                 }
             }
-
             
+            while (userChoiceNonViolent < 1 || userChoiceNonViolent > 2)
+            {
+                Console.WriteLine("1: Nuisibles fuyards (Les nuisibles éviteront à tout prix les rencontres!)\n");
+                Console.WriteLine("2: Nuisibles standards\n");
+                var x = Console.ReadLine();
+                userChoiceNonViolent = Convert.ToInt16(x);
+                if (x == "1")
+                {
+                    enableStrategy = true;
+                }
+            }
+            Ecosysteme ecosysteme = new Ecosysteme(choice);
+
             
             for (var i = 0; i < ecosysteme.GetListNuisibles().Count; i++)
             {
@@ -52,6 +66,11 @@ namespace TPDesignPattern
                 if (enableMutant && currentNuisible.GetType() == typeof(Pigeon))
                 {
                     currentNuisible.IsMutant = true;
+                }
+                
+                if (enableStrategy)
+                {
+                    currentNuisible.SetNonViolentStrategy(new NonViolentConcreteStrategy());
                 }
                 Console.WriteLine("Nuisible: " + currentNuisible.GetType() + " | etat: " + currentNuisible.Etat + " | coordonnées: " + currentNuisible.CurrentCoordonnees.X + ","+ currentNuisible.CurrentCoordonnees.Y);
             }

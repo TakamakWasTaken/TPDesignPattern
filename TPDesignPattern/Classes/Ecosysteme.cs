@@ -12,6 +12,10 @@ namespace TPDesignPattern
         
         private readonly List<Nuisible> _listNuisibles = new List<Nuisible>();
 
+        /// <summary>
+        /// Appel de la méthode spawn du nouveau nuisible et l'ajoute à la liste des nuisibles présents dans l'environnement.
+        /// </summary>
+        /// <param name="nuisible"> le Nuisible à ajouter à l'écosystème.</param>
         public void AddNuisible(Nuisible nuisible)
         {
             nuisible.Spawn(this);
@@ -23,20 +27,10 @@ namespace TPDesignPattern
             return _listNuisibles;
         }
 
-        public Ecosysteme(int min, int max)
-        {
-            Min = min;
-            Max = max;
-        }
-
-        public Ecosysteme()
-        {
-            Min = 1;
-            Max = 10;
-            Type = "Aléatoire";
-            MaxNuisibles = 20;
-        }
-        
+        /// <summary>
+        /// Le constructeur d'écosystème. instancie l'écosystème selon le type sélectionné par l'utilisateur.
+        /// </summary>
+        /// <param name="type"> entier qui permet de lier le choix de l'utilisateur à l'écosystème qui lui correspond.</param>
         public Ecosysteme(int type)
         {
             Min = 1;
@@ -87,6 +81,9 @@ namespace TPDesignPattern
             }
         }
 
+        /// <summary>
+        /// Invoque la méthode de déplacement de tous les nuisibles de l'écosystème, si ils sont vivants.
+        /// </summary>
         public void UpdatePositions()
         {
             for (var i = 0; i < GetListNuisibles().Count; i++)
