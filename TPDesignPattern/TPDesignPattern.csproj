@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Classes\Coordonnees.cs" />
     <Compile Include="Classes\Ecosysteme.cs" />
+    <Compile Include="Classes\MutantConcreteDecorator.cs" />
+    <Compile Include="Classes\MutantDecorator.cs" />
     <Compile Include="Classes\Nuisible.cs" />
     <Compile Include="Classes\Pigeon.cs" />
     <Compile Include="Classes\Rat.cs" />

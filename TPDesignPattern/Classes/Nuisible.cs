@@ -1,28 +1,30 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 
 namespace TPDesignPattern
 {
     public abstract class Nuisible
     {
-        protected static Random r = new Random();
-        public Ecosysteme _ecosysteme { set; get; }
-        protected int vitesse { set; get; }
-        public Coordonnees _currentCoordonnees { set; get; }
-        protected Coordonnees _lastCoordonnees { set; get;  }
-        public string etat { set; get; }
-        public const string dead = "dead";
-        public const string alive = "alive";
-        public const string zombified = "zombified";
-        public string shortName { get; set; }
+        protected static readonly Random R = new Random();
+        public Ecosysteme Ecosysteme { set; get; }
+        protected int Vitesse { set; get; }
+        public Coordonnees CurrentCoordonnees { set; get; }
+        protected Coordonnees LastCoordonnees { set; get;  }
+        public string Etat { set; get; }
+        public const string Dead = "dead";
+        public const string Alive = "alive";
+        public const string Zombified = "zombified";
+        public string ShortName { get; set; }
+        public bool IsMutant = false;
 
         public abstract void Contact(Nuisible nuisibleEncountered);
 
-        public void spawn(Ecosysteme ecosysteme)
+        public void Spawn(Ecosysteme ecosysteme)
         {
-            _ecosysteme = ecosysteme;
-            int newX = r.Next(_ecosysteme.min, _ecosysteme.max+1);
-            int newY = r.Next(_ecosysteme.min, _ecosysteme.max + 1);
-            _currentCoordonnees = new Coordonnees(newX, newY);
+            Ecosysteme = ecosysteme;
+            int newX = R.Next(Ecosysteme.Min, Ecosysteme.Max+1);
+            int newY = R.Next(Ecosysteme.Min, Ecosysteme.Max + 1);
+            CurrentCoordonnees = new Coordonnees(newX, newY);
         }
         
         /// <summary>
@@ -30,12 +32,15 @@ namespace TPDesignPattern
         /// </summary>
         public void Deplacement()
         {
-            var direction = ChoixDirection();
-            MoveOne(direction);
-            Nuisible nuisibleEncountered = isPositionEmpty(_currentCoordonnees.X, _currentCoordonnees.Y);
-            if(nuisibleEncountered != null && nuisibleEncountered.etat != dead)
+            for (var i = 0; i < Vitesse; i++)
             {
-                this.Contact(nuisibleEncountered);
+                var direction = ChoixDirection();
+                MoveOne(direction);
+                Nuisible nuisibleEncountered = IsPositionEmpty(CurrentCoordonnees.X, CurrentCoordonnees.Y);
+                if(nuisibleEncountered != null && nuisibleEncountered.Etat != Dead)
+                {
+                    Contact(nuisibleEncountered);
+                }
             }
         }
 
@@ -44,41 +49,41 @@ namespace TPDesignPattern
         /// </summary>
         protected void MoveOne(string direction)
         {
-            int newX = _currentCoordonnees.X;
-            int newY = _currentCoordonnees.Y;
+            int newX = CurrentCoordonnees.X;
+            int newY = CurrentCoordonnees.Y;
             switch (direction)
             {
                 case "nord":
-                    newY = _currentCoordonnees.Y - 1;
+                    newY = CurrentCoordonnees.Y - 1;
                     break;
                     
                 case "sud":
-                    newY = _currentCoordonnees.Y + 1;
+                    newY = CurrentCoordonnees.Y + 1;
                     break;
                     
                 case "est":
-                    newX = _currentCoordonnees.X + 1;
+                    newX = CurrentCoordonnees.X + 1;
                     break;
                         
                 case "ouest":
-                    newX = _currentCoordonnees.X - 1;
+                    newX = CurrentCoordonnees.X - 1;
                     break;
             }
             //reset position
-            if (newY > _ecosysteme.max || newY < _ecosysteme.min)
+            if (newY > Ecosysteme.Max || newY < Ecosysteme.Min)
             {
-                newY = _currentCoordonnees.Y + (_currentCoordonnees.Y - newY);
+                newY = CurrentCoordonnees.Y + (CurrentCoordonnees.Y - newY);
             }
             
-            if (newX > _ecosysteme.max || newX < _ecosysteme.min)
+            if (newX > Ecosysteme.Max || newX < Ecosysteme.Min)
             {
-                newX = _currentCoordonnees.X + (_currentCoordonnees.X - newX);
+                newX = CurrentCoordonnees.X + (CurrentCoordonnees.X - newX);
             }
 
-            _lastCoordonnees = _currentCoordonnees;
+            LastCoordonnees = CurrentCoordonnees;
             
-            _currentCoordonnees.X = newX;
-            _currentCoordonnees.Y = newY;
+            CurrentCoordonnees.X = newX;
+            CurrentCoordonnees.Y = newY;
         }
 
         /// <summary>
@@ -87,17 +92,17 @@ namespace TPDesignPattern
         /// <param name="newX">Coordonnée en X</param>
         /// <param name="newY">Coordonnée en Y</param>
         /// <returns></returns>
-        public Nuisible isPositionEmpty(int newX, int newY)
+        public Nuisible IsPositionEmpty(int newX, int newY)
         {
             Nuisible nuisibleEncountered = null;
-            for (var i = 0; i < _ecosysteme.getListNuisibles().Count; i++)
+            for (var i = 0; i < Ecosysteme.GetListNuisibles().Count; i++)
             {
-                if (_ecosysteme.getListNuisibles()[i] == this)
+                if (Ecosysteme.GetListNuisibles()[i] != this)
                 {
-                    var currentNuisibleCoordinates = _ecosysteme.getListNuisibles()[i]._currentCoordonnees;
+                    var currentNuisibleCoordinates = Ecosysteme.GetListNuisibles()[i].CurrentCoordonnees;
                     if (currentNuisibleCoordinates.X == newX && currentNuisibleCoordinates.Y == newY)
                     {
-                        nuisibleEncountered = _ecosysteme.getListNuisibles()[i];
+                        nuisibleEncountered = Ecosysteme.GetListNuisibles()[i];
                     }
                 }
             }
@@ -112,7 +117,7 @@ namespace TPDesignPattern
         protected string ChoixDirection()
         {
             string direction = "";
-            var randomNumber = r.Next(0,4);
+            var randomNumber = R.Next(0,4);
 
             switch (randomNumber)
             {
@@ -136,18 +141,24 @@ namespace TPDesignPattern
             return direction;
         }
 
-        public void zombify(Nuisible nuisibleEncountered)
+        public void Zombify(Nuisible nuisibleEncountered)
         {
-            if (nuisibleEncountered.etat != dead)
+            if (nuisibleEncountered.Etat != Dead)
             {
-                nuisibleEncountered.etat = zombified;
-                this.resetPosition();
+                nuisibleEncountered.Etat = Zombified;
+                ResetPosition();
             }
         }
 
-        protected void resetPosition()
+        protected void ResetPosition()
         {
-            _currentCoordonnees = _lastCoordonnees;
+            CurrentCoordonnees = LastCoordonnees;
+        }
+
+        public void GetDescription()
+        {
+            Console.WriteLine("Nuisible: " + GetType() + " | etat: " + Etat + " | coordonnées: " + CurrentCoordonnees.X + ","+ CurrentCoordonnees.Y);
+                    
         }
     }
 }

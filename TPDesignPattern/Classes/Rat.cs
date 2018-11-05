@@ -4,45 +4,37 @@ namespace TPDesignPattern
 {
     public class Rat : Nuisible
     {
+        public Rat()
+        {
+            ShortName = "R";
+            Vitesse = 2;
+            Etat = Alive;
+        }
         
         public override void Contact(Nuisible nuisibleEncountered)
         {
             
-            if (etat == zombified)
+            if (Etat == Zombified)
             {
-                zombify(nuisibleEncountered);
+                Zombify(nuisibleEncountered);
             }
-            else if (nuisibleEncountered.etat == zombified)
+            else if (nuisibleEncountered.Etat == Zombified)
             {
-                nuisibleEncountered.zombify(this);
+                nuisibleEncountered.Zombify(this);
             }
-            else if (this.etat == alive && nuisibleEncountered.GetType() == typeof(Pigeon))
+            else if (Etat == Alive && nuisibleEncountered.GetType() == typeof(Pigeon))
             {
-                fight(nuisibleEncountered);
-            }
-        }
-
-        public Rat()
-        {
-            shortName = "R";
-            vitesse = 2;
-            etat = alive;
-        }
-
-        private void fight(Nuisible nuisibleEncountered)
-        {
-            
-            switch (r.Next(0, 2))
-            {
-                case 0:
-                    //this.etat = dead;
-                    break;
-                
-                case 1:
-                    nuisibleEncountered.etat = dead;
-                    break;
+                switch (R.Next(0, 2))
+                {
+                    case 0:
+                        Etat = Dead;
+                        break;
+                    
+                    case 1:
+                        nuisibleEncountered.Etat = Dead;
+                        break;
+                }
             }
         }
-        
     }
 }

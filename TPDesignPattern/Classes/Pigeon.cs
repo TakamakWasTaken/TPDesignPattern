@@ -7,40 +7,39 @@ namespace TPDesignPattern
     {
         public Pigeon()
         {
-            shortName = "P";
-            vitesse = 3;
-            etat = alive;
+            IsMutant = false;
+            ShortName = "P";
+            Vitesse = 3;
+            Etat = Alive;
         }
 
         public override void Contact(Nuisible nuisibleEncountered)
         {
-            if (etat == zombified)
+            if (Etat == Zombified)
             {
-                zombify(nuisibleEncountered);
+                Zombify(nuisibleEncountered);
             }
-            else if (nuisibleEncountered.etat == zombified)
+            else if (nuisibleEncountered.Etat == Zombified)
             {
-                nuisibleEncountered.zombify(this);
+                nuisibleEncountered.Zombify(this);
             }
-            else if (this.etat == alive && nuisibleEncountered.GetType() == typeof(Rat))
+            else if (Etat == Alive && nuisibleEncountered.GetType() == typeof(Rat))
             {
-                fight(nuisibleEncountered);
-            }
-            
-        }
-
-        private void fight(Nuisible nuisibleEncountered)
-        {
-            
-            switch (r.Next(0, 2))
-            {
-                case 0:
-                    this.etat = dead;
-                    break;
-                
-                case 1:
-                    nuisibleEncountered.etat = dead;
-                    break;
+                switch (R.Next(0, 2))
+                {
+                    case 0:
+                        Etat = Dead;
+                        break;
+                    
+                    case 1:
+                        nuisibleEncountered.Etat = Dead;
+                        break;
+                }
+                if (IsMutant)
+                {
+                    MutantConcreteDecorator mutant = new MutantConcreteDecorator(this);
+                    mutant.Contact(nuisibleEncountered);
+                }
             }
         }
     }

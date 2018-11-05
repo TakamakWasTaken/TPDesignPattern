@@ -9,6 +9,8 @@
         <e p="Classes" t="Include">
           <e p="Coordonnees.cs" t="Include" />
           <e p="Ecosysteme.cs" t="Include" />
+          <e p="MutantConcreteDecorator.cs" t="Include" />
+          <e p="MutantDecorator.cs" t="Include" />
           <e p="Nuisible.cs" t="Include" />
           <e p="Pigeon.cs" t="Include" />
           <e p="Rat.cs" t="Include" />
