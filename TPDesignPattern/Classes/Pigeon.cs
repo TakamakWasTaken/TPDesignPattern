@@ -14,13 +14,12 @@ namespace TPDesignPattern
 
         public override void Contact(Nuisible nuisibleEncountered)
         {
-            if (this.etat == zombified)
+            if (etat == zombified)
             {
-                this.zombify(nuisibleEncountered);
+                zombify(nuisibleEncountered);
             }
             else if (nuisibleEncountered.etat == zombified)
             {
-                
                 nuisibleEncountered.zombify(this);
             }
             else if (this.etat == alive && nuisibleEncountered.GetType() == typeof(Rat))
@@ -30,7 +29,7 @@ namespace TPDesignPattern
             
         }
 
-        protected void fight(Nuisible nuisibleEncountered)
+        private void fight(Nuisible nuisibleEncountered)
         {
             
             switch (r.Next(0, 2))

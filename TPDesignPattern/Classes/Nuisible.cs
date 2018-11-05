@@ -35,7 +35,7 @@ namespace TPDesignPattern
             Nuisible nuisibleEncountered = isPositionEmpty(_currentCoordonnees.X, _currentCoordonnees.Y);
             if(nuisibleEncountered != null && nuisibleEncountered.etat != dead)
             {
-                Contact(nuisibleEncountered);
+                this.Contact(nuisibleEncountered);
             }
         }
 
@@ -44,8 +44,8 @@ namespace TPDesignPattern
         /// </summary>
         protected void MoveOne(string direction)
         {
-            int newX = -1;
-            int newY = -1;
+            int newX = _currentCoordonnees.X;
+            int newY = _currentCoordonnees.Y;
             switch (direction)
             {
                 case "nord":
@@ -64,7 +64,6 @@ namespace TPDesignPattern
                     newX = _currentCoordonnees.X - 1;
                     break;
             }
-            
             //reset position
             if (newY > _ecosysteme.max || newY < _ecosysteme.min)
             {
@@ -73,21 +72,20 @@ namespace TPDesignPattern
             
             if (newX > _ecosysteme.max || newX < _ecosysteme.min)
             {
-                newY = _currentCoordonnees.X + (_currentCoordonnees.X - newX);
+                newX = _currentCoordonnees.X + (_currentCoordonnees.X - newX);
             }
 
             _lastCoordonnees = _currentCoordonnees;
             
             _currentCoordonnees.X = newX;
-
             _currentCoordonnees.Y = newY;
         }
 
         /// <summary>
         /// Détermine si la nouvelle position est vide ou non
         /// </summary>
-        /// <param name="newX">La valeur de la coordonnée X</param>
-        /// <param name="newY">La valeur de la coordonnée X</param>
+        /// <param name="newX">Coordonnée en X</param>
+        /// <param name="newY">Coordonnée en Y</param>
         /// <returns></returns>
         public Nuisible isPositionEmpty(int newX, int newY)
         {

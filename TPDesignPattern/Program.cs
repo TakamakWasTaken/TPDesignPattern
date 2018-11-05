@@ -19,13 +19,29 @@ namespace TPDesignPattern
             Zombie zombie2 = new Zombie();
             Zombie zombie3 = new Zombie();
             Rat rat = new Rat();
+            Rat rat1 = new Rat();
+            Rat rat2 = new Rat();
+            Rat rat3 = new Rat();
+            Rat rat4 = new Rat();
             Pigeon pigeon = new Pigeon();
+            Pigeon pigeon1 = new Pigeon();
+            Pigeon pigeon2 = new Pigeon();
+            Pigeon pigeon3 = new Pigeon();
+            Pigeon pigeon4 = new Pigeon();
             
+            ecosysteme.addNuisible(rat);
+            ecosysteme.addNuisible(rat1);
+            ecosysteme.addNuisible(rat2);
+            ecosysteme.addNuisible(rat3);
+            ecosysteme.addNuisible(rat4);
+            ecosysteme.addNuisible(pigeon);
+            ecosysteme.addNuisible(pigeon1);
+            ecosysteme.addNuisible(pigeon2);
+            ecosysteme.addNuisible(pigeon3);
+            ecosysteme.addNuisible(pigeon4);
             ecosysteme.addNuisible(zombie);
             ecosysteme.addNuisible(zombie2);
             ecosysteme.addNuisible(zombie3);
-            ecosysteme.addNuisible(rat);
-            ecosysteme.addNuisible(pigeon);
             _simulation.addEcosysteme(ecosysteme);
             
              
@@ -44,7 +60,7 @@ namespace TPDesignPattern
         private static void SetTimer()
         {
             // Create a timer with a two second interval.
-            aTimer = new Timer(2000);
+            aTimer = new Timer(1000);
             // Hook up the Elapsed event for the timer. 
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
@@ -82,9 +98,14 @@ namespace TPDesignPattern
                 if (x == 10)
                 {
                     Console.WriteLine("╚══════════╝");
+                    for (var i = 0; i < ecosysteme.getListNuisibles().Count; i++)
+                    {
+                        var nuisib = ecosysteme.getListNuisibles()[i];
+                        Console.WriteLine(" etat: " + nuisib.etat + " coord: " + nuisib._currentCoordonnees.X + ","+ nuisib._currentCoordonnees.Y);
+                    }
                     ecosysteme.UpdatePositions();
+                    Console.WriteLine("en222d");
                 }
-                
             }
         }
 
@@ -102,6 +123,5 @@ namespace TPDesignPattern
             }
             return nextSquare;
         }
-
     }
 }
