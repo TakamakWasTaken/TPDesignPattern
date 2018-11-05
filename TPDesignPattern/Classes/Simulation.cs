@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace TPDesignPattern
 {
     public class Simulation
     {
+        public static bool isStarted = false;
         private List<Ecosysteme> listEcosystemes = new List<Ecosysteme>();
 
         public List<Ecosysteme> getEcosystemeList()
@@ -17,13 +19,10 @@ namespace TPDesignPattern
             return listEcosystemes;
         }
 
-        public void start()
+        public Simulation()
         {
-            
+            Simulation.isStarted = true;
         }
-        public void start(string type)
-        {
-            
-        }
+
     }
 }

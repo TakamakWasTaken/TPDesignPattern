@@ -4,24 +4,25 @@ namespace TPDesignPattern
 {
     public abstract class Nuisible
     {
-        
-        protected Random r = new Random();
+        protected static Random r = new Random();
         public Ecosysteme _ecosysteme { set; get; }
         protected int vitesse { set; get; }
-        protected Coordonnees _currentCoordonnees { set; get; }
+        public Coordonnees _currentCoordonnees { set; get; }
         protected Coordonnees _lastCoordonnees { set; get;  }
-        protected string etat { set; get; }
-        protected const string dead = "dead";
-        protected const string alive = "alive";
-        protected const string zombified = "zombified";
+        public string etat { set; get; }
+        public const string dead = "dead";
+        public const string alive = "alive";
+        public const string zombified = "zombified";
+        public string shortName { get; set; }
 
         public abstract void Contact(Nuisible nuisibleEncountered);
 
-        public void spawn()
+        public void spawn(Ecosysteme ecosysteme)
         {
-            _currentCoordonnees.X = r.Next(_ecosysteme.min, _ecosysteme.max+1);
-            _currentCoordonnees.Y = r.Next(_ecosysteme.min, _ecosysteme.max+1);
-            
+            _ecosysteme = ecosysteme;
+            int newX = r.Next(_ecosysteme.min, _ecosysteme.max+1);
+            int newY = r.Next(_ecosysteme.min, _ecosysteme.max + 1);
+            _currentCoordonnees = new Coordonnees(newX, newY);
         }
         
         /// <summary>
@@ -29,23 +30,20 @@ namespace TPDesignPattern
         /// </summary>
         public void Deplacement()
         {
-
-            MoveOne();
-            Nuisible nuisibleEncountered = this.isPositionEmpty(_currentCoordonnees.X, _currentCoordonnees.Y);
-            if(nuisibleEncountered != null)
+            var direction = ChoixDirection();
+            MoveOne(direction);
+            Nuisible nuisibleEncountered = isPositionEmpty(_currentCoordonnees.X, _currentCoordonnees.Y);
+            if(nuisibleEncountered != null && nuisibleEncountered.etat != dead)
             {
                 Contact(nuisibleEncountered);
             }
-            
         }
 
         /// <summary>
         /// Calcule la position du Nuisible après un déplacement d'une case. Si il est hors limites, inverse le déplacement.
         /// </summary>
-        protected void MoveOne()
+        protected void MoveOne(string direction)
         {
-            string direction = ChoixDirection();
-
             int newX = -1;
             int newY = -1;
             switch (direction)
@@ -66,6 +64,8 @@ namespace TPDesignPattern
                     newX = _currentCoordonnees.X - 1;
                     break;
             }
+            
+            //reset position
             if (newY > _ecosysteme.max || newY < _ecosysteme.min)
             {
                 newY = _currentCoordonnees.Y + (_currentCoordonnees.Y - newY);
@@ -89,15 +89,18 @@ namespace TPDesignPattern
         /// <param name="newX">La valeur de la coordonnée X</param>
         /// <param name="newY">La valeur de la coordonnée X</param>
         /// <returns></returns>
-        protected Nuisible isPositionEmpty(int newX, int newY)
+        public Nuisible isPositionEmpty(int newX, int newY)
         {
             Nuisible nuisibleEncountered = null;
             for (var i = 0; i < _ecosysteme.getListNuisibles().Count; i++)
             {
-                var currentNuisibleCoordinates = _ecosysteme.getListNuisibles()[i]._currentCoordonnees;
-                if (currentNuisibleCoordinates.X == newX && currentNuisibleCoordinates.Y == newY)
+                if (_ecosysteme.getListNuisibles()[i] == this)
                 {
-                    nuisibleEncountered = _ecosysteme.getListNuisibles()[i];
+                    var currentNuisibleCoordinates = _ecosysteme.getListNuisibles()[i]._currentCoordonnees;
+                    if (currentNuisibleCoordinates.X == newX && currentNuisibleCoordinates.Y == newY)
+                    {
+                        nuisibleEncountered = _ecosysteme.getListNuisibles()[i];
+                    }
                 }
             }
             return nuisibleEncountered;
@@ -133,6 +136,15 @@ namespace TPDesignPattern
             }
             
             return direction;
+        }
+
+        public void zombify(Nuisible nuisibleEncountered)
+        {
+            if (nuisibleEncountered.etat != dead)
+            {
+                nuisibleEncountered.etat = zombified;
+                this.resetPosition();
+            }
         }
 
         protected void resetPosition()

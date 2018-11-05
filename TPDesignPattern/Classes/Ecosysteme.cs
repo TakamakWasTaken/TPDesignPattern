@@ -19,9 +19,8 @@ namespace TPDesignPattern
 
         public void addNuisible(Nuisible nuisible)
         {
+            nuisible.spawn(this);
             _listNuisibles.Add(nuisible);
-            nuisible._ecosysteme = this;
-            nuisible.spawn();
         }
 
         public List<Nuisible> getListNuisibles()
@@ -45,8 +44,20 @@ namespace TPDesignPattern
             nordEst = new Coordonnees(1, 10);
             sudEst = new Coordonnees(10, 10);
             sudOuest = new Coordonnees(10, 1);
-            min = 0;
-            max = 0;
+            min = 1;
+            max = 10;
+        }
+
+        public void UpdatePositions()
+        {
+            for (var i = 0; i < getListNuisibles().Count; i++)
+            {
+                var currentNuisible = getListNuisibles()[i];
+                if (currentNuisible.etat != Nuisible.dead)
+                {
+                    currentNuisible.Deplacement();
+                }
+            }
         }
     }
 }

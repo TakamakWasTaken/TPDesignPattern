@@ -4,13 +4,15 @@
     {
         public override void Contact(Nuisible nuisibleEncountered)
         {
-            nuisibleEncountered.etat = zombified;
+            this.zombify(nuisibleEncountered);
+            this.resetPosition();
         }
 
         public Zombie()
         {
             vitesse = 1;
             etat = zombified;
+            shortName = "Z";
         }
     }
 }
